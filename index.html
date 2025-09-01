@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicadores Q1 - Septiembre 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #ffe8d4 50%, #ffb366 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 70% 30%, 
+                rgba(255, 140, 0, 0.08) 0%, 
+                transparent 50%),
+                radial-gradient(ellipse at 30% 70%, 
+                rgba(255, 119, 0, 0.06) 0%, 
+                transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff8c00, #ff7700);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .indicators-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9em;
+            table-layout: fixed;
+            position: relative;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #ff8c00, #ff7700);
+            color: white;
+        }
+
+        .table-header th {
+            padding: 15px 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1em;
+            border-right: 2px solid rgba(255,255,255,0.2);
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .table-header th:first-child {
+            width: 200px;
+        }
+
+        .table-header th:last-child {
+            border-right: none;
+        }
+
+        .quarter-header {
+            background: linear-gradient(135deg, #ff8c00, #ff7700);
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px 8px;
+            border-right: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .sub-header {
+            background: linear-gradient(135deg, #ff8c00, #ff7700);
+            color: white;
+            font-weight: 500;
+            text-align: center;
+            padding: 10px 5px;
+            border-right: 1px solid rgba(255,255,255,0.3);
+            font-size: 0.8em;
+        }
+
+        .indicator-row {
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+            background: white;
+        }
+
+        .indicator-row:hover {
+            background-color: #f8f9fa;
+        }
+
+        .indicator-row td {
+            padding: 20px 15px;
+            text-align: center;
+            vertical-align: middle;
+            border-right: 1px solid #ddd;
+            font-size: 1em;
+            height: 60px;
+            background: white;
+        }
+
+        .indicator-row td:last-child {
+            border-right: none;
+        }
+
+        .indicator-row .category-cell {
+            background: linear-gradient(135deg, #ff8c00, #ff7700) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            text-align: center !important;
+            padding: 20px 15px !important;
+            writing-mode: horizontal-tb !important;
+            text-orientation: mixed !important;
+            min-width: 200px !important;
+            font-size: 0.9em !important;
+            letter-spacing: 1px !important;
+            vertical-align: middle !important;
+            border-right: 1px solid rgba(255,255,255,0.3) !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+            line-height: 1.2 !important;
+        }
+
+        .meta-cell {
+            font-weight: 500;
+            color: #333;
+            font-size: 0.8em;
+            background: white;
+        }
+
+        .percentage-cell {
+            font-size: 1em;
+            font-weight: bold;
+            color: #2c5aa0;
+            background: white;
+        }
+
+        .status-cell {
+            font-weight: 600;
+            font-size: 0.8em;
+            background: white;
+        }
+
+        .status-completado {
+            color: #28a745;
+            background-color: #d4edda;
+            padding: 6px 10px;
+            border-radius: 15px;
+            display: inline-block;
+            font-size: 0.75em;
+        }
+
+        .status-completada {
+            color: #28a745;
+            background-color: #d4edda;
+            padding: 6px 10px;
+            border-radius: 15px;
+            display: inline-block;
+            font-size: 0.75em;
+        }
+
+        .status-progreso {
+            color: #ffc107;
+            background-color: #fff3cd;
+            padding: 6px 10px;
+            border-radius: 15px;
+            display: inline-block;
+            font-size: 0.75em;
+        }
+
+        .status-a-iniciar {
+            background: #ff4757;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(255, 71, 87, 0.3);
+        }
+
+        .status-progreso {
+            background: #ffa502;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(255, 165, 2, 0.3);
+        }
+
+        .observations-text {
+            font-size: 0.8em;
+            color: #555;
+            text-align: left !important;
+            padding: 15px 20px !important;
+            line-height: 1.4;
+            background: white;
+        }
+
+        .table-wrapper {
+            background: white;
+            padding: 20px;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .table-header th,
+            .indicator-row td {
+                padding: 15px 8px;
+                font-size: 0.9em;
+            }
+            
+            .observations-section {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Indicadores Q1 - Septiembre 2025</h1>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="indicators-table">
+            <thead>
+                <tr class="table-header">
+                    <th><span class="icon">📊</span>CATEGORÍA / INDICADOR</th>
+                    <th colspan="3">Q1 - COMPLETADO</th>
+                    <th><span class="icon">📄</span>OBSERVACIONES</th>
+                </tr>
+                <tr class="table-header">
+                    <th></th>
+                    <th class="sub-header"><span class="icon">🎯</span>META</th>
+                    <th class="sub-header"><span class="icon">📈</span>%</th>
+                    <th class="sub-header"><span class="icon">✅</span>ESTADO</th>
+                    <th class="sub-header"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="indicator-row">
+                    <td class="category-cell">💻 FUNCIONAMIENTO DE SISTEMAS</td>
+                    <td class="meta-cell">100% Operativo</td>
+                    <td class="percentage-cell">0%</td>
+                    <td class="status-cell">
+                        <span class="status-a-iniciar">A INICIAR</span>
+                    </td>
+                    <td class="observations-text">
+                        En iniciación
+                    </td>
+                </tr>
+                <tr class="indicator-row">
+                    <td class="category-cell">🌐 CONECTIVIDAD ESTABLE</td>
+                    <td class="meta-cell">50 mbps</td>
+                    <td class="percentage-cell">0%</td>
+                    <td class="status-cell">
+                        <span class="status-a-iniciar">A INICIAR</span>
+                    </td>
+                    <td class="observations-text">
+                        En iniciación
+                    </td>
+                </tr>
+                <tr class="indicator-row">
+                    <td class="category-cell">📹 TRANSFORMADOR CÁMARAS ESCUINTLA</td>
+                    <td class="meta-cell">Instalar Cargador</td>
+                    <td class="percentage-cell">50%</td>
+                    <td class="status-cell">
+                        <span class="status-progreso">EN PROCESO</span>
+                    </td>
+                    <td class="observations-text">
+                        Ya se encuentra en Escuintla, pendiente de instalar.
+                    </td>
+                </tr>
+                <tr class="indicator-row">
+                    <td class="category-cell">🔧 MANTENIMIENTO PREVENTIVO - AGENCIAS</td>
+                    <td class="meta-cell">Completar mantenimientos</td>
+                    <td class="percentage-cell">0%</td>
+                    <td class="status-cell">
+                        <span class="status-a-iniciar">A INICIAR</span>
+                    </td>
+                    <td class="observations-text">
+                        Pendiente de iniciar mantenimiento preventivo en agencias.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+    </div>
+</body>
+</html>
